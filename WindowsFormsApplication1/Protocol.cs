@@ -36,48 +36,101 @@ namespace WindowsFormsApplication1
         public static int DoLogin(string loginName, string password)
         {
             next:
-            String JsonStr = GetLoginResult(loginName, password);
-            int i = 0;
-            JsonData jsondata = GetJsonData(JsonStr);
-            if (jsondata != null)
+            try
             {
-                if (jsondata["resultCode"].ToString() == "0")
-                {
-                    return Define.Login_Succeed;
-                }
-                else if (jsondata["resultCode"].ToString() == "1")
-                {
-                    i++;
-                    if (i == 1)
-                    {
-                        return Define.Login_Google;
-                    }
 
-                }
-                else if(jsondata["resultCode"].ToString() == "-3" || jsondata["resultCode"].ToString() == "3")
+                String JsonStr = GetLoginResult(loginName, password);
+                int i = 0;
+                JsonData jsondata = GetJsonData(JsonStr);
+                if (jsondata != null)
                 {
-                    i++;
-                    if (i == 1)
+                    if (jsondata["resultCode"].ToString() == "0")
                     {
-                        goto next;
+                        return Define.Login_Succeed;
                     }
-                    
+                    else if (jsondata["resultCode"].ToString() == "1")
+                    {
+                        i++;
+                        if (i == 1)
+                        {
+                            return Define.Login_Google;
+                        }
+
+                    }
+                    else if (jsondata["resultCode"].ToString() == "-3" || jsondata["resultCode"].ToString() == "3")
+                    {
+                        i++;
+                        if (i == 1)
+                        {
+                            goto next;
+                        }
+
+                    }
                 }
+            }catch
+            {
+                return Define.Login_Falied;
             }
             return Define.Login_Falied;
         }
 
+        public static string UrlEncode(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            byte[] byStr = System.Text.Encoding.UTF8.GetBytes(str); //默认是System.Text.Encoding.Default.GetBytes(str)
+            for (int i = 0; i < byStr.Length; i++)
+            {
+                sb.Append(@"%" + Convert.ToString(byStr[i], 16));
+            }
+
+            return (sb.ToString());
+        }
+
+
+
         public static String GetLoginResult(string loginName, string password)
         {
-
-            String Pwmd5 = Des.GetMD5Hash(password).ToString();
-            String JsonStr = Http.HttpPost(Define.Login, "loginName=" + loginName +"&password=" + Pwmd5 + "&isClient=4");
+            String Pwmd5 = UrlEncode(password);//String Pwmd5 = Des.GetMD5Hash(password).ToString();
+            String JsonStr = Http.HttpPost(Define.Login, "loginName=" + loginName + "&password=" + Pwmd5 + "&isClient=" + Define.channel_code);
             return JsonStr;
         }
 
+
+
+        public static int GetQQLogin()
+        {
+            /*
+            String JsonStr = Http.HttpGet(Define.QQLogin, "isClient="+channel_code);
+
+            JsonData jsondata = GetJsonData(JsonStr);
+            if (jsondata != null)
+            {
+                if (jsondata["errorCode"] != null)
+                {
+                    if (jsondata["errorCode"].ToString() == "0")
+                    {
+                        if (jsondata["url"] != null)
+                        {
+                            if (jsondata["url"].ToString() != "")
+                            {
+                                Data.GetQQLoginUrl = jsondata["url"].ToString();
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+             * */
+            return Define.Login_Falied;
+        }
+
+
         public static int GetGoogleCheckResult(string totpCode)
         {
-            String JsonStr = Http.HttpPost(Define.GoogleCheckUrl, "totpCode=" + totpCode + "&isClient=4");
+            String JsonStr = Http.HttpPost(Define.GoogleCheckUrl, "totpCode=" + totpCode + "&isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -105,8 +158,8 @@ namespace WindowsFormsApplication1
 
         public static int GetUserInfo()
         {
-           
-            String JsonStr = Http.HttpPost(Define.Userinfo, "isClient=4");
+
+            String JsonStr = Http.HttpPost(Define.Userinfo, "isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -175,8 +228,8 @@ namespace WindowsFormsApplication1
 
         public static int GetAssets()
         {
-           
-            String JsonStr = Http.HttpPost(Define.Assets, "isClient=4");
+
+            String JsonStr = Http.HttpPost(Define.Assets, "isClient=" + Define.channel_code);
             //MessageBox.Show(JsonStr);
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -306,7 +359,7 @@ namespace WindowsFormsApplication1
         {
             //各网站行情信息:
             //https://www.okcoin.com/api/tickerinfo.do
-            String JsonStr = Http.HttpGet(Define.Tickerinfo, "isClient=4");
+            String JsonStr = Http.HttpGet(Define.Tickerinfo, "isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -317,13 +370,17 @@ namespace WindowsFormsApplication1
                     int fdsaf = jsondata["result"].Count;
                     for (int i = 0; i < jsondata["result"].Count;i++ )
                     {
-                        if ( jsondata["result"][i]["market_from"].ToString() == "0")
+                        if (jsondata["result"][i]["market_from"]  != null)
                         {
-                            Data.btclast = (Double)Convert.ChangeType(jsondata["result"][i]["last"].ToString(), typeof(Double));
-                        }
-                        if (jsondata["result"][i]["market_from"].ToString() == "3")
-                        {
-                            Data.ltclast = (Double)Convert.ChangeType(jsondata["result"][i]["last"].ToString(), typeof(Double));
+                            if (jsondata["result"][i]["market_from"].ToString() == "0")
+                            {
+                                Data.btclast = (Double)Convert.ChangeType(jsondata["result"][i]["last"].ToString(), typeof(Double));
+                            }
+ 
+                            if (jsondata["result"][i]["market_from"].ToString() == "3")
+                            {
+                                Data.ltclast = (Double)Convert.ChangeType(jsondata["result"][i]["last"].ToString(), typeof(Double));
+                            }
                         }
                     }
 
@@ -343,12 +400,31 @@ namespace WindowsFormsApplication1
         }
 
 
+        public static int GetUserConfig()
+        {
+            String JsonStr = Http.HttpPost(Define.UserConfig, "isClient=" + Define.channel_code);
+
+            JsonData jsondata = GetJsonData(JsonStr);
+            if (jsondata != null)
+            {
+
+                if (jsondata["config"] != null)
+                {
+                    if (jsondata["config"]["tradePasswordEnabled"] != null)
+                    {
+                        Define.tradePasswordEnabled = jsondata["config"]["tradePasswordEnabled"].ToString();
+                    }
+                    return 0;
+                }
+            }
+            return Define.Login_Falied;
+        }
         public static int GetCheckVersion()
         {
             //各网站行情信息:
             //https://www.okcoin.com/api/tickerinfo.do
-            
-            String JsonStr = Http.HttpPost(Define.checkVersion, "isClient=4");
+
+            String JsonStr = Http.HttpPost(Define.checkVersion, "isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -377,25 +453,37 @@ namespace WindowsFormsApplication1
             
             return 0;
         }
-        
-        public static int DoTrade(String trade_symbol,String trade_type,String rate,String amount)
+
+        public static int DoTrade(String trade_symbol, String trade_type, String rate, String amount, String tradePwd)
         {
-            String JsonStr = Http.HttpPost(Define.Trade, "isClient=4&symbol=" + trade_symbol + "&type=" + trade_type + "&rate=" + rate + "&amount=" + amount);
+            String JsonStr = Http.HttpPost(Define.Trade, "isClient=" + Define.channel_code + "&symbol=" + trade_symbol + "&type=" + trade_type + "&rate=" + rate + "&amount=" + amount + "&tradePwd=" + tradePwd);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
             {
-                if (jsondata["result"].ToString() == "True")
+
+                if (jsondata["errorCode"] != null)
+                {
+                    Define.TradeLasterrorCode = jsondata["errorCode"].ToString();
+                }
+                if (jsondata["errorNum"] != null)
+                {
+                    Define.TradeErrorNum = jsondata["errorNum"].ToString();
+                }
+
+
+　               if (jsondata["result"].ToString() == "True")
                 {
                     return Define.Trade_Succeed;
                 }
+
             }
             return Define.Trade_Falied;
         }
         public static int GetDepth(string symbol)
         {
             //委单
-            String JsonStr = Http.HttpGet(Define.Depth, "symbol=" + symbol + "&isClient=4");
+            String JsonStr = Http.HttpGet(Define.Depth, "symbol=" + symbol + "&isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -452,19 +540,20 @@ namespace WindowsFormsApplication1
 
 
         public static int DoOrder(string symbol, string order_id)
-        {
-            String JsonStr = Http.HttpPost(Define.Order, "symbol=" + symbol + "&order_id=" + order_id + "&isClient=4");
+        {          
+            //{"orders":[{"amount":1.112,"avg_rate":70.81,"createDate":1397038807000,"deal_amount":1.112,"orders_id":23531510,"rate":70.81,"status":2,"symbol":"ltc_cny","type":"buy"}],"result":true}
+            String JsonStr = Http.HttpPost(Define.Order, "symbol=" + symbol + "&order_id=" + order_id + "&isClient=" + Define.channel_code);
             
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
             {
-                if (jsondata["errorCode"].ToString() == "0")
-                {
+                
                     if (jsondata["result"] != null)
                     {
+
                     }
                     return Define.Login_Succeed;
-                }
+               
             }
             return Define.Login_Falied;
         }
@@ -475,7 +564,7 @@ namespace WindowsFormsApplication1
         {
 
             //委单
-            String JsonStr = Http.HttpPost(Define.CancelOrder, "symbol=" + symbol + "&order_id=" + Order_id + "&isClient=4");
+            String JsonStr = Http.HttpPost(Define.CancelOrder, "symbol=" + symbol + "&order_id=" + Order_id + "&isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -494,7 +583,7 @@ namespace WindowsFormsApplication1
 
         public static int DoOrderHistory(String status, String symbol, String currentPage, String pageLength)
         {
-            String JsonStr = Http.HttpPost(Define.OrderHistory, "symbol=" + symbol + "&status=" + status + "&currentPage=" + currentPage + "&pageLength=" + pageLength + "&isClient=4");
+            String JsonStr = Http.HttpPost(Define.OrderHistory, "symbol=" + symbol + "&status=" + status + "&currentPage=" + currentPage + "&pageLength=" + pageLength + "&isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)
@@ -623,7 +712,7 @@ namespace WindowsFormsApplication1
         {
             return 0;
 
-            String JsonStr = Http.HttpPost(Define.AccountRecord, "recordType=" + recordType + "&currentPage=" + currentPage + "&pageLength=" + pageLength + "&isClient=4");
+            String JsonStr = Http.HttpPost(Define.AccountRecord, "recordType=" + recordType + "&currentPage=" + currentPage + "&pageLength=" + pageLength + "&isClient=" + Define.channel_code);
 
             JsonData jsondata = GetJsonData(JsonStr);
             if (jsondata != null)

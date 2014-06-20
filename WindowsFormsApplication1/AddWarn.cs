@@ -40,6 +40,17 @@ namespace WindowsFormsApplication1
             check_warn1.Text = "声音报警";
             check_warn2.Text = "任栏闪动";
 
+            if (BTCorLTC == 0)
+            {
+                radioBTCorLTC1.Checked = true;
+
+            }
+            else
+            {
+                radioBTCorLTC2.Checked = true;
+
+            }
+
             if (  BTCorLTC > -1 && index > -1)
             {
                 WarnManagement.Instance().set_cur_warnlist(BTCorLTC);
@@ -47,16 +58,7 @@ namespace WindowsFormsApplication1
                 if (warn != null)
                 {
 
-                    if (BTCorLTC == 0)
-                    {
-                        radioBTCorLTC1.Checked = true;
 
-                    } 
-                    else
-                    {
-                        radioBTCorLTC2.Checked = true;
-
-                    }
                     radioBTCorLTC1.Enabled = false;
                     radioBTCorLTC2.Enabled = false;
                     if (warn.greatorless == 0)
@@ -94,6 +96,12 @@ namespace WindowsFormsApplication1
                 }
             }
         }
+
+        public void command_cointype(int _BTCorLTC)
+        {
+            BTCorLTC = _BTCorLTC;
+        }
+
 
         public void command(int _BTCorLTC, int _index)
         {
@@ -211,6 +219,11 @@ namespace WindowsFormsApplication1
 
                 json += data.ToJson();
             }
+        }
+
+        private void txt_price_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
 

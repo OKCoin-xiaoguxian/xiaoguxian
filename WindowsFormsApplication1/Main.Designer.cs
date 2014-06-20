@@ -179,6 +179,12 @@
             this.lab_RemainderMoney = new System.Windows.Forms.Label();
             this.button21 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
+            this.timer_alert = new System.Windows.Forms.Timer(this.components);
+            this.timer_FlashWindow = new System.Windows.Forms.Timer(this.components);
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.textBox_tradePassword_buy = new System.Windows.Forms.TextBox();
+            this.textBox_tradePassword_sell = new System.Windows.Forms.TextBox();
             this.groupbox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -586,7 +592,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 114);
+            this.label3.Location = new System.Drawing.Point(11, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(101, 12);
             this.label3.TabIndex = 25;
@@ -597,7 +603,7 @@
             this.lab_freecny.AutoSize = true;
             this.lab_freecny.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lab_freecny.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(163)))), ((int)(((byte)(12)))));
-            this.lab_freecny.Location = new System.Drawing.Point(118, 114);
+            this.lab_freecny.Location = new System.Drawing.Point(118, 99);
             this.lab_freecny.Name = "lab_freecny";
             this.lab_freecny.Size = new System.Drawing.Size(25, 12);
             this.lab_freecny.TabIndex = 25;
@@ -606,7 +612,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 141);
+            this.label6.Location = new System.Drawing.Point(11, 120);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(83, 12);
             this.label6.TabIndex = 25;
@@ -617,7 +623,7 @@
             this.lab_ReckonBuy.AutoSize = true;
             this.lab_ReckonBuy.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lab_ReckonBuy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(163)))), ((int)(((byte)(12)))));
-            this.lab_ReckonBuy.Location = new System.Drawing.Point(118, 141);
+            this.lab_ReckonBuy.Location = new System.Drawing.Point(118, 120);
             this.lab_ReckonBuy.Name = "lab_ReckonBuy";
             this.lab_ReckonBuy.Size = new System.Drawing.Size(12, 12);
             this.lab_ReckonBuy.TabIndex = 25;
@@ -626,7 +632,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(11, 167);
+            this.label10.Location = new System.Drawing.Point(11, 142);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 12);
             this.label10.TabIndex = 26;
@@ -635,7 +641,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(146, 167);
+            this.label11.Location = new System.Drawing.Point(146, 142);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(53, 12);
             this.label11.TabIndex = 27;
@@ -644,7 +650,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(280, 167);
+            this.label13.Location = new System.Drawing.Point(280, 142);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(77, 12);
             this.label13.TabIndex = 28;
@@ -652,7 +658,7 @@
             // 
             // txt_tradeCnyPrice
             // 
-            this.txt_tradeCnyPrice.Location = new System.Drawing.Point(11, 194);
+            this.txt_tradeCnyPrice.Location = new System.Drawing.Point(11, 163);
             this.txt_tradeCnyPrice.Name = "txt_tradeCnyPrice";
             this.txt_tradeCnyPrice.Size = new System.Drawing.Size(93, 21);
             this.txt_tradeCnyPrice.TabIndex = 29;
@@ -662,7 +668,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(121, 199);
+            this.label14.Location = new System.Drawing.Point(121, 168);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(11, 12);
             this.label14.TabIndex = 27;
@@ -670,7 +676,7 @@
             // 
             // txt_tradeAmount
             // 
-            this.txt_tradeAmount.Location = new System.Drawing.Point(148, 194);
+            this.txt_tradeAmount.Location = new System.Drawing.Point(148, 163);
             this.txt_tradeAmount.Name = "txt_tradeAmount";
             this.txt_tradeAmount.Size = new System.Drawing.Size(82, 21);
             this.txt_tradeAmount.TabIndex = 29;
@@ -679,7 +685,7 @@
             // 
             // txt_txt_tradeAmount
             // 
-            this.txt_txt_tradeAmount.Location = new System.Drawing.Point(278, 194);
+            this.txt_txt_tradeAmount.Location = new System.Drawing.Point(278, 163);
             this.txt_txt_tradeAmount.Name = "txt_txt_tradeAmount";
             this.txt_txt_tradeAmount.ReadOnly = true;
             this.txt_txt_tradeAmount.Size = new System.Drawing.Size(118, 21);
@@ -687,7 +693,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(356, 231);
+            this.button5.Location = new System.Drawing.Point(356, 196);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(40, 23);
             this.button5.TabIndex = 30;
@@ -697,7 +703,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(147, 231);
+            this.button6.Location = new System.Drawing.Point(147, 196);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(40, 23);
             this.button6.TabIndex = 30;
@@ -707,7 +713,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(304, 231);
+            this.button7.Location = new System.Drawing.Point(304, 196);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(40, 23);
             this.button7.TabIndex = 30;
@@ -717,7 +723,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(253, 231);
+            this.button8.Location = new System.Drawing.Point(253, 196);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(40, 23);
             this.button8.TabIndex = 30;
@@ -727,7 +733,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(200, 231);
+            this.button9.Location = new System.Drawing.Point(200, 196);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(40, 23);
             this.button9.TabIndex = 30;
@@ -739,9 +745,9 @@
             // 
             this.button10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(163)))), ((int)(((byte)(1)))));
-            this.button10.Location = new System.Drawing.Point(33, 346);
+            this.button10.Location = new System.Drawing.Point(97, 344);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(324, 25);
+            this.button10.Size = new System.Drawing.Size(232, 25);
             this.button10.TabIndex = 30;
             this.button10.Text = "立即买入";
             this.button10.UseVisualStyleBackColor = true;
@@ -751,7 +757,7 @@
             // 
             this.lab_alert.AutoSize = true;
             this.lab_alert.ForeColor = System.Drawing.Color.Red;
-            this.lab_alert.Location = new System.Drawing.Point(149, 309);
+            this.lab_alert.Location = new System.Drawing.Point(146, 283);
             this.lab_alert.Name = "lab_alert";
             this.lab_alert.Size = new System.Drawing.Size(53, 12);
             this.lab_alert.TabIndex = 26;
@@ -759,7 +765,7 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(9, 231);
+            this.button11.Location = new System.Drawing.Point(9, 196);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(105, 23);
             this.button11.TabIndex = 30;
@@ -769,7 +775,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(9, 304);
+            this.button12.Location = new System.Drawing.Point(9, 278);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(105, 23);
             this.button12.TabIndex = 30;
@@ -780,7 +786,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(249, 199);
+            this.label19.Location = new System.Drawing.Point(249, 168);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(11, 12);
             this.label19.TabIndex = 28;
@@ -794,7 +800,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(336, 131);
+            this.label5.Location = new System.Drawing.Point(336, 92);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(0, 12);
             this.label5.TabIndex = 34;
@@ -811,7 +817,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(642, 114);
+            this.label20.Location = new System.Drawing.Point(642, 99);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(83, 12);
             this.label20.TabIndex = 25;
@@ -820,7 +826,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(642, 141);
+            this.label22.Location = new System.Drawing.Point(642, 120);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(77, 12);
             this.label22.TabIndex = 25;
@@ -832,7 +838,7 @@
             this.lab_Sell_coin_num.AutoSize = true;
             this.lab_Sell_coin_num.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lab_Sell_coin_num.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(13)))), ((int)(((byte)(0)))));
-            this.lab_Sell_coin_num.Location = new System.Drawing.Point(739, 114);
+            this.lab_Sell_coin_num.Location = new System.Drawing.Point(739, 99);
             this.lab_Sell_coin_num.Name = "lab_Sell_coin_num";
             this.lab_Sell_coin_num.Size = new System.Drawing.Size(12, 12);
             this.lab_Sell_coin_num.TabIndex = 25;
@@ -843,7 +849,7 @@
             this.lab_ReckonSell.AutoSize = true;
             this.lab_ReckonSell.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lab_ReckonSell.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(13)))), ((int)(((byte)(0)))));
-            this.lab_ReckonSell.Location = new System.Drawing.Point(739, 141);
+            this.lab_ReckonSell.Location = new System.Drawing.Point(739, 120);
             this.lab_ReckonSell.Name = "lab_ReckonSell";
             this.lab_ReckonSell.Size = new System.Drawing.Size(25, 12);
             this.lab_ReckonSell.TabIndex = 25;
@@ -852,7 +858,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(642, 167);
+            this.label26.Location = new System.Drawing.Point(642, 142);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(53, 12);
             this.label26.TabIndex = 26;
@@ -862,7 +868,7 @@
             // 
             this.lab_sell_alert.AutoSize = true;
             this.lab_sell_alert.ForeColor = System.Drawing.Color.Red;
-            this.lab_sell_alert.Location = new System.Drawing.Point(773, 312);
+            this.lab_sell_alert.Location = new System.Drawing.Point(777, 282);
             this.lab_sell_alert.Name = "lab_sell_alert";
             this.lab_sell_alert.Size = new System.Drawing.Size(53, 12);
             this.lab_sell_alert.TabIndex = 26;
@@ -871,7 +877,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(777, 167);
+            this.label31.Location = new System.Drawing.Point(777, 142);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(53, 12);
             this.label31.TabIndex = 27;
@@ -880,7 +886,7 @@
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(750, 197);
+            this.label32.Location = new System.Drawing.Point(750, 166);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(11, 12);
             this.label32.TabIndex = 27;
@@ -889,7 +895,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(911, 167);
+            this.label33.Location = new System.Drawing.Point(911, 142);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(83, 12);
             this.label33.TabIndex = 28;
@@ -898,7 +904,7 @@
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(883, 197);
+            this.label34.Location = new System.Drawing.Point(883, 166);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(11, 12);
             this.label34.TabIndex = 28;
@@ -906,7 +912,7 @@
             // 
             // txt_Sell_tradeCnyPrice
             // 
-            this.txt_Sell_tradeCnyPrice.Location = new System.Drawing.Point(642, 194);
+            this.txt_Sell_tradeCnyPrice.Location = new System.Drawing.Point(642, 163);
             this.txt_Sell_tradeCnyPrice.Name = "txt_Sell_tradeCnyPrice";
             this.txt_Sell_tradeCnyPrice.Size = new System.Drawing.Size(93, 21);
             this.txt_Sell_tradeCnyPrice.TabIndex = 29;
@@ -915,7 +921,7 @@
             // 
             // txt_Sell_tradeAmount
             // 
-            this.txt_Sell_tradeAmount.Location = new System.Drawing.Point(779, 194);
+            this.txt_Sell_tradeAmount.Location = new System.Drawing.Point(779, 163);
             this.txt_Sell_tradeAmount.Name = "txt_Sell_tradeAmount";
             this.txt_Sell_tradeAmount.Size = new System.Drawing.Size(91, 21);
             this.txt_Sell_tradeAmount.TabIndex = 29;
@@ -924,7 +930,7 @@
             // 
             // txt_txt_Sell_tradeAmount
             // 
-            this.txt_txt_Sell_tradeAmount.Location = new System.Drawing.Point(909, 194);
+            this.txt_txt_Sell_tradeAmount.Location = new System.Drawing.Point(909, 163);
             this.txt_txt_Sell_tradeAmount.Name = "txt_txt_Sell_tradeAmount";
             this.txt_txt_Sell_tradeAmount.ReadOnly = true;
             this.txt_txt_Sell_tradeAmount.Size = new System.Drawing.Size(117, 21);
@@ -932,7 +938,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(987, 231);
+            this.button1.Location = new System.Drawing.Point(987, 196);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(40, 23);
             this.button1.TabIndex = 30;
@@ -942,7 +948,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(935, 231);
+            this.button2.Location = new System.Drawing.Point(935, 196);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 23);
             this.button2.TabIndex = 30;
@@ -952,7 +958,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(883, 231);
+            this.button3.Location = new System.Drawing.Point(883, 196);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(40, 23);
             this.button3.TabIndex = 30;
@@ -962,7 +968,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(830, 231);
+            this.button4.Location = new System.Drawing.Point(830, 196);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(40, 23);
             this.button4.TabIndex = 30;
@@ -972,7 +978,7 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(777, 231);
+            this.button13.Location = new System.Drawing.Point(777, 196);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(40, 23);
             this.button13.TabIndex = 30;
@@ -982,7 +988,7 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(640, 267);
+            this.button14.Location = new System.Drawing.Point(640, 236);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(105, 23);
             this.button14.TabIndex = 30;
@@ -992,7 +998,7 @@
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(640, 303);
+            this.button15.Location = new System.Drawing.Point(640, 277);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(105, 23);
             this.button15.TabIndex = 30;
@@ -1004,9 +1010,9 @@
             // 
             this.button16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(13)))), ((int)(((byte)(0)))));
-            this.button16.Location = new System.Drawing.Point(660, 346);
+            this.button16.Location = new System.Drawing.Point(727, 344);
             this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(353, 25);
+            this.button16.Size = new System.Drawing.Size(232, 25);
             this.button16.TabIndex = 30;
             this.button16.Text = "立即卖出";
             this.button16.UseVisualStyleBackColor = true;
@@ -1081,7 +1087,7 @@
             this.lab_last_btc.AutoSize = true;
             this.lab_last_btc.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lab_last_btc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(110)))), ((int)(((byte)(0)))));
-            this.lab_last_btc.Location = new System.Drawing.Point(328, 33);
+            this.lab_last_btc.Location = new System.Drawing.Point(323, 33);
             this.lab_last_btc.Name = "lab_last_btc";
             this.lab_last_btc.Size = new System.Drawing.Size(17, 16);
             this.lab_last_btc.TabIndex = 49;
@@ -1091,7 +1097,7 @@
             // label43
             // 
             this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(294, 36);
+            this.label43.Location = new System.Drawing.Point(292, 36);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(35, 12);
             this.label43.TabIndex = 50;
@@ -1100,7 +1106,7 @@
             // 
             // button19
             // 
-            this.button19.Location = new System.Drawing.Point(9, 267);
+            this.button19.Location = new System.Drawing.Point(9, 236);
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(105, 23);
             this.button19.TabIndex = 51;
@@ -1122,7 +1128,7 @@
             // 
             // button24
             // 
-            this.button24.Location = new System.Drawing.Point(304, 267);
+            this.button24.Location = new System.Drawing.Point(304, 236);
             this.button24.Name = "button24";
             this.button24.Size = new System.Drawing.Size(40, 23);
             this.button24.TabIndex = 30;
@@ -1132,7 +1138,7 @@
             // 
             // button25
             // 
-            this.button25.Location = new System.Drawing.Point(252, 267);
+            this.button25.Location = new System.Drawing.Point(252, 236);
             this.button25.Name = "button25";
             this.button25.Size = new System.Drawing.Size(40, 23);
             this.button25.TabIndex = 30;
@@ -1142,7 +1148,7 @@
             // 
             // button26
             // 
-            this.button26.Location = new System.Drawing.Point(201, 267);
+            this.button26.Location = new System.Drawing.Point(201, 236);
             this.button26.Name = "button26";
             this.button26.Size = new System.Drawing.Size(40, 23);
             this.button26.TabIndex = 30;
@@ -1152,7 +1158,7 @@
             // 
             // button27
             // 
-            this.button27.Location = new System.Drawing.Point(148, 267);
+            this.button27.Location = new System.Drawing.Point(148, 236);
             this.button27.Name = "button27";
             this.button27.Size = new System.Drawing.Size(40, 23);
             this.button27.TabIndex = 30;
@@ -1162,7 +1168,7 @@
             // 
             // button28
             // 
-            this.button28.Location = new System.Drawing.Point(356, 267);
+            this.button28.Location = new System.Drawing.Point(356, 236);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(40, 23);
             this.button28.TabIndex = 30;
@@ -1172,7 +1178,7 @@
             // 
             // button29
             // 
-            this.button29.Location = new System.Drawing.Point(987, 267);
+            this.button29.Location = new System.Drawing.Point(987, 236);
             this.button29.Name = "button29";
             this.button29.Size = new System.Drawing.Size(40, 23);
             this.button29.TabIndex = 30;
@@ -1182,7 +1188,7 @@
             // 
             // button30
             // 
-            this.button30.Location = new System.Drawing.Point(935, 267);
+            this.button30.Location = new System.Drawing.Point(935, 236);
             this.button30.Name = "button30";
             this.button30.Size = new System.Drawing.Size(40, 23);
             this.button30.TabIndex = 30;
@@ -1192,7 +1198,7 @@
             // 
             // button31
             // 
-            this.button31.Location = new System.Drawing.Point(883, 267);
+            this.button31.Location = new System.Drawing.Point(883, 236);
             this.button31.Name = "button31";
             this.button31.Size = new System.Drawing.Size(40, 23);
             this.button31.TabIndex = 30;
@@ -1202,7 +1208,7 @@
             // 
             // button32
             // 
-            this.button32.Location = new System.Drawing.Point(830, 267);
+            this.button32.Location = new System.Drawing.Point(830, 236);
             this.button32.Name = "button32";
             this.button32.Size = new System.Drawing.Size(40, 23);
             this.button32.TabIndex = 30;
@@ -1212,7 +1218,7 @@
             // 
             // button33
             // 
-            this.button33.Location = new System.Drawing.Point(777, 267);
+            this.button33.Location = new System.Drawing.Point(777, 236);
             this.button33.Name = "button33";
             this.button33.Size = new System.Drawing.Size(40, 23);
             this.button33.TabIndex = 30;
@@ -1255,7 +1261,7 @@
             this.lbl_freebtc.AutoSize = true;
             this.lbl_freebtc.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_freebtc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(163)))), ((int)(((byte)(12)))));
-            this.lbl_freebtc.Location = new System.Drawing.Point(740, 4);
+            this.lbl_freebtc.Location = new System.Drawing.Point(754, 4);
             this.lbl_freebtc.Name = "lbl_freebtc";
             this.lbl_freebtc.Size = new System.Drawing.Size(17, 16);
             this.lbl_freebtc.TabIndex = 63;
@@ -1264,7 +1270,7 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(707, 6);
+            this.label44.Location = new System.Drawing.Point(721, 6);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(35, 12);
             this.label44.TabIndex = 62;
@@ -1273,7 +1279,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(842, 6);
+            this.label45.Location = new System.Drawing.Point(856, 6);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(35, 12);
             this.label45.TabIndex = 62;
@@ -1284,7 +1290,7 @@
             this.lbl_freeltc.AutoSize = true;
             this.lbl_freeltc.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_freeltc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(163)))), ((int)(((byte)(12)))));
-            this.lbl_freeltc.Location = new System.Drawing.Point(874, 4);
+            this.lbl_freeltc.Location = new System.Drawing.Point(888, 4);
             this.lbl_freeltc.Name = "lbl_freeltc";
             this.lbl_freeltc.Size = new System.Drawing.Size(17, 16);
             this.lbl_freeltc.TabIndex = 63;
@@ -1365,7 +1371,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(576, 6);
+            this.label7.Location = new System.Drawing.Point(590, 6);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 12);
             this.label7.TabIndex = 62;
@@ -1376,7 +1382,7 @@
             this.lbl_freecny.AutoSize = true;
             this.lbl_freecny.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_freecny.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(163)))), ((int)(((byte)(12)))));
-            this.lbl_freecny.Location = new System.Drawing.Point(608, 4);
+            this.lbl_freecny.Location = new System.Drawing.Point(622, 4);
             this.lbl_freecny.Name = "lbl_freecny";
             this.lbl_freecny.Size = new System.Drawing.Size(17, 16);
             this.lbl_freecny.TabIndex = 63;
@@ -1387,7 +1393,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
-            this.label16.Location = new System.Drawing.Point(536, 6);
+            this.label16.Location = new System.Drawing.Point(556, 6);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(31, 12);
             this.label16.TabIndex = 86;
@@ -1396,7 +1402,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(707, 36);
+            this.label28.Location = new System.Drawing.Point(721, 36);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(35, 12);
             this.label28.TabIndex = 62;
@@ -1405,7 +1411,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(577, 36);
+            this.label29.Location = new System.Drawing.Point(591, 36);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(35, 12);
             this.label29.TabIndex = 62;
@@ -1414,7 +1420,7 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(842, 36);
+            this.label39.Location = new System.Drawing.Point(856, 36);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(35, 12);
             this.label39.TabIndex = 62;
@@ -1425,7 +1431,7 @@
             this.lbl_freezedbtc.AutoSize = true;
             this.lbl_freezedbtc.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_freezedbtc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
-            this.lbl_freezedbtc.Location = new System.Drawing.Point(740, 34);
+            this.lbl_freezedbtc.Location = new System.Drawing.Point(754, 34);
             this.lbl_freezedbtc.Name = "lbl_freezedbtc";
             this.lbl_freezedbtc.Size = new System.Drawing.Size(17, 16);
             this.lbl_freezedbtc.TabIndex = 63;
@@ -1436,7 +1442,7 @@
             this.lbl_freezedcny.AutoSize = true;
             this.lbl_freezedcny.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_freezedcny.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
-            this.lbl_freezedcny.Location = new System.Drawing.Point(608, 34);
+            this.lbl_freezedcny.Location = new System.Drawing.Point(622, 34);
             this.lbl_freezedcny.Name = "lbl_freezedcny";
             this.lbl_freezedcny.Size = new System.Drawing.Size(17, 16);
             this.lbl_freezedcny.TabIndex = 63;
@@ -1447,7 +1453,7 @@
             this.lbl_freezedltc.AutoSize = true;
             this.lbl_freezedltc.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_freezedltc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
-            this.lbl_freezedltc.Location = new System.Drawing.Point(874, 34);
+            this.lbl_freezedltc.Location = new System.Drawing.Point(888, 34);
             this.lbl_freezedltc.Name = "lbl_freezedltc";
             this.lbl_freezedltc.Size = new System.Drawing.Size(17, 16);
             this.lbl_freezedltc.TabIndex = 63;
@@ -1458,7 +1464,7 @@
             this.label48.AutoSize = true;
             this.label48.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label48.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
-            this.label48.Location = new System.Drawing.Point(536, 36);
+            this.label48.Location = new System.Drawing.Point(556, 36);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(31, 12);
             this.label48.TabIndex = 86;
@@ -1469,7 +1475,7 @@
             this.label42.AutoSize = true;
             this.label42.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label42.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
-            this.label42.Location = new System.Drawing.Point(225, 36);
+            this.label42.Location = new System.Drawing.Point(223, 36);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(70, 12);
             this.label42.TabIndex = 87;
@@ -1480,7 +1486,7 @@
             this.lab_last_ltc.AutoSize = true;
             this.lab_last_ltc.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lab_last_ltc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(110)))), ((int)(((byte)(0)))));
-            this.lab_last_ltc.Location = new System.Drawing.Point(448, 35);
+            this.lab_last_ltc.Location = new System.Drawing.Point(461, 33);
             this.lab_last_ltc.Name = "lab_last_ltc";
             this.lab_last_ltc.Size = new System.Drawing.Size(17, 16);
             this.lab_last_ltc.TabIndex = 49;
@@ -1489,7 +1495,7 @@
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(414, 38);
+            this.label47.Location = new System.Drawing.Point(428, 36);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(35, 12);
             this.label47.TabIndex = 50;
@@ -1680,7 +1686,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.label2.Location = new System.Drawing.Point(224, 8);
+            this.label2.Location = new System.Drawing.Point(222, 8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 14);
             this.label2.TabIndex = 44;
@@ -1701,7 +1707,7 @@
             // 
             // button21
             // 
-            this.button21.Location = new System.Drawing.Point(640, 231);
+            this.button21.Location = new System.Drawing.Point(640, 196);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(105, 23);
             this.button21.TabIndex = 30;
@@ -1711,7 +1717,7 @@
             // 
             // button22
             // 
-            this.button22.Location = new System.Drawing.Point(985, 27);
+            this.button22.Location = new System.Drawing.Point(989, 27);
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(44, 23);
             this.button22.TabIndex = 98;
@@ -1719,12 +1725,61 @@
             this.button22.UseVisualStyleBackColor = true;
             this.button22.Click += new System.EventHandler(this.button22_Click);
             // 
+            // timer_alert
+            // 
+            this.timer_alert.Enabled = true;
+            this.timer_alert.Interval = 5000;
+            this.timer_alert.Tick += new System.EventHandler(this.timer_alert_Tick);
+            // 
+            // timer_FlashWindow
+            // 
+            this.timer_FlashWindow.Interval = 1000;
+            this.timer_FlashWindow.Tick += new System.EventHandler(this.timer_FlashWindow_Tick);
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.ForeColor = System.Drawing.Color.Red;
+            this.label35.Location = new System.Drawing.Point(95, 318);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(53, 12);
+            this.label35.TabIndex = 26;
+            this.label35.Text = "资金密码";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.ForeColor = System.Drawing.Color.Red;
+            this.label36.Location = new System.Drawing.Point(725, 318);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(53, 12);
+            this.label36.TabIndex = 26;
+            this.label36.Text = "资金密码";
+            // 
+            // textBox_tradePassword_buy
+            // 
+            this.textBox_tradePassword_buy.Location = new System.Drawing.Point(163, 315);
+            this.textBox_tradePassword_buy.Name = "textBox_tradePassword_buy";
+            this.textBox_tradePassword_buy.PasswordChar = '*';
+            this.textBox_tradePassword_buy.Size = new System.Drawing.Size(166, 21);
+            this.textBox_tradePassword_buy.TabIndex = 99;
+            // 
+            // textBox_tradePassword_sell
+            // 
+            this.textBox_tradePassword_sell.Location = new System.Drawing.Point(791, 312);
+            this.textBox_tradePassword_sell.Name = "textBox_tradePassword_sell";
+            this.textBox_tradePassword_sell.PasswordChar = '*';
+            this.textBox_tradePassword_sell.Size = new System.Drawing.Size(168, 21);
+            this.textBox_tradePassword_sell.TabIndex = 99;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1042, 633);
+            this.Controls.Add(this.textBox_tradePassword_sell);
+            this.Controls.Add(this.textBox_tradePassword_buy);
             this.Controls.Add(this.button22);
             this.Controls.Add(this.tabControl3);
             this.Controls.Add(this.panel2);
@@ -1803,6 +1858,8 @@
             this.Controls.Add(this.label14);
             this.Controls.Add(this.lab_sell_alert);
             this.Controls.Add(this.label11);
+            this.Controls.Add(this.label36);
+            this.Controls.Add(this.label35);
             this.Controls.Add(this.lab_alert);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.lab_ReckonSell);
@@ -1993,6 +2050,12 @@
         private System.Windows.Forms.Label lab_RemainderMoney;
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Timer timer_alert;
+        private System.Windows.Forms.Timer timer_FlashWindow;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TextBox textBox_tradePassword_buy;
+        private System.Windows.Forms.TextBox textBox_tradePassword_sell;
     }
 }
 

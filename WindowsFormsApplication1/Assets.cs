@@ -42,34 +42,34 @@ namespace WindowsFormsApplication1
 
                 lock (Data.free)
                 {
-                    lab_trading_account_net.Text = Data.free["cny"].ToString(); ;
+                    lab_trading_account_net.Text = Data.free["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.') ;
                 }
                 
 
                 lock (Data.freeall)
                 {
-                    lab_trading_account_total.Text = Data.freeall["all"].ToString();
+                    lab_trading_account_total.Text = Data.freeall["all"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
                 }
 
 
                 lock (Data.lending_account)
                 {
 
-                    lab_lending_account_available_btc.Text = Data.lending_account["available"]["btc"].ToString();
-                    lab_lending_account_available_cny.Text = Data.lending_account["available"]["cny"].ToString();
-                    lab_lending_account_available_ltc.Text = Data.lending_account["available"]["ltc"].ToString();
+                    lab_lending_account_available_btc.Text = Data.lending_account["available"]["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_lending_account_available_cny.Text = Data.lending_account["available"]["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_lending_account_available_ltc.Text = Data.lending_account["available"]["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
                     //////////////////////////////////////////////////////////////////////////////////////////
 
-                    lab_lending_account_frozen_btc.Text = Data.lending_account["frozen"]["btc"].ToString();
-                    lab_lending_account_frozen_cny.Text = Data.lending_account["frozen"]["cny"].ToString();
-                    lab_lending_account_frozen_ltc.Text = Data.lending_account["frozen"]["ltc"].ToString();
+                    lab_lending_account_frozen_btc.Text = Data.lending_account["frozen"]["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_lending_account_frozen_cny.Text = Data.lending_account["frozen"]["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_lending_account_frozen_ltc.Text = Data.lending_account["frozen"]["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
                     //////////////////////////////////////////////////////////////////////////////////////////
 
-                    lab_lending_account_lent_btc.Text = Data.lending_account["lent"]["btc"].ToString();
-                    lab_lending_account_lent_cny.Text = Data.lending_account["lent"]["cny"].ToString();
-                    lab_lending_account_lent_ltc.Text = Data.lending_account["lent"]["ltc"].ToString();
+                    lab_lending_account_lent_btc.Text = Data.lending_account["lent"]["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_lending_account_lent_cny.Text = Data.lending_account["lent"]["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_lending_account_lent_ltc.Text = Data.lending_account["lent"]["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
                     //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,21 +82,21 @@ namespace WindowsFormsApplication1
                 lock (Data.trading_account)
                 {
 
-                    lab_trading_account_available_btc.Text = Data.trading_account["available"]["btc"].ToString();
-                    lab_trading_account_available_cny.Text = Data.trading_account["available"]["cny"].ToString();
-                    lab_trading_account_available_ltc.Text = Data.trading_account["available"]["ltc"].ToString();
+                    lab_trading_account_available_btc.Text = Data.trading_account["available"]["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_trading_account_available_cny.Text = Data.trading_account["available"]["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_trading_account_available_ltc.Text = Data.trading_account["available"]["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
                     
                     //////////////////////////////////////////////////////////////////////////////////////////
 
-                    lab_trading_account_frozen_btc.Text = Data.trading_account["frozen"]["btc"].ToString();
-                    lab_trading_account_frozen_cny.Text = Data.trading_account["frozen"]["cny"].ToString();
-                    lab_trading_account_frozen_ltc.Text = Data.trading_account["frozen"]["ltc"].ToString();
+                    lab_trading_account_frozen_btc.Text = Data.trading_account["frozen"]["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_trading_account_frozen_cny.Text = Data.trading_account["frozen"]["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_trading_account_frozen_ltc.Text = Data.trading_account["frozen"]["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
                     //////////////////////////////////////////////////////////////////////////////////////////
 
-                    lab_trading_account_borrowed_btc.Text = Data.trading_account["borrowed"]["btc"].ToString();
-                    lab_trading_account_borrowed_cny.Text = Data.trading_account["borrowed"]["cny"].ToString();
-                    lab_trading_account_borrowed_ltc.Text = Data.trading_account["borrowed"]["ltc"].ToString();
+                    lab_trading_account_borrowed_btc.Text = Data.trading_account["borrowed"]["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_trading_account_borrowed_cny.Text = Data.trading_account["borrowed"]["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_trading_account_borrowed_ltc.Text = Data.trading_account["borrowed"]["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
                     //////////////////////////////////////////////////////////////////////////////////////////
                     

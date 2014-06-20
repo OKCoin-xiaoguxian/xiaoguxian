@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.panel_login = new System.Windows.Forms.Panel();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -46,13 +47,17 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txt_GoogleCheck = new System.Windows.Forms.TextBox();
-            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.panel_qq = new System.Windows.Forms.Panel();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.label_updatealert = new System.Windows.Forms.Label();
             this.panel_login.SuspendLayout();
             this.panel_google.SuspendLayout();
+            this.panel_qq.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_login
             // 
+            this.panel_login.Controls.Add(this.label_updatealert);
             this.panel_login.Controls.Add(this.linkLabel4);
             this.panel_login.Controls.Add(this.linkLabel3);
             this.panel_login.Controls.Add(this.linkLabel2);
@@ -63,10 +68,22 @@
             this.panel_login.Controls.Add(this.label3);
             this.panel_login.Controls.Add(this.label2);
             this.panel_login.Controls.Add(this.label1);
-            this.panel_login.Location = new System.Drawing.Point(12, 12);
+            this.panel_login.Location = new System.Drawing.Point(49, 4);
             this.panel_login.Name = "panel_login";
             this.panel_login.Size = new System.Drawing.Size(312, 181);
             this.panel_login.TabIndex = 57;
+            this.panel_login.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_login_Paint);
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.Location = new System.Drawing.Point(222, 134);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(77, 12);
+            this.linkLabel4.TabIndex = 63;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "新浪微博登录";
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
             // 
             // linkLabel3
             // 
@@ -143,9 +160,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(14, 55);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 12);
+            this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 58;
-            this.label2.Text = "用户名:";
+            this.label2.Text = "Email:";
             // 
             // label1
             // 
@@ -164,7 +181,7 @@
             this.panel_google.Controls.Add(this.label6);
             this.panel_google.Controls.Add(this.label7);
             this.panel_google.Controls.Add(this.txt_GoogleCheck);
-            this.panel_google.Location = new System.Drawing.Point(40, 2);
+            this.panel_google.Location = new System.Drawing.Point(28, 22);
             this.panel_google.Name = "panel_google";
             this.panel_google.Size = new System.Drawing.Size(303, 171);
             this.panel_google.TabIndex = 57;
@@ -220,22 +237,42 @@
             this.txt_GoogleCheck.TabIndex = 11;
             this.txt_GoogleCheck.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_GoogleCheck_KeyPress);
             // 
-            // linkLabel4
+            // panel_qq
             // 
-            this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Location = new System.Drawing.Point(222, 134);
-            this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(77, 12);
-            this.linkLabel4.TabIndex = 63;
-            this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "新浪微博登录";
-            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            this.panel_qq.Controls.Add(this.webBrowser1);
+            this.panel_qq.Location = new System.Drawing.Point(281, 6);
+            this.panel_qq.Name = "panel_qq";
+            this.panel_qq.Size = new System.Drawing.Size(340, 213);
+            this.panel_qq.TabIndex = 59;
+            this.panel_qq.Visible = false;
+            this.panel_qq.Resize += new System.EventHandler(this.panel_qq_Resize);
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(6, 5);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(331, 194);
+            this.webBrowser1.TabIndex = 59;
+            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
+            // 
+            // label_updatealert
+            // 
+            this.label_updatealert.AutoSize = true;
+            this.label_updatealert.ForeColor = System.Drawing.Color.Red;
+            this.label_updatealert.Location = new System.Drawing.Point(77, 158);
+            this.label_updatealert.Name = "label_updatealert";
+            this.label_updatealert.Size = new System.Drawing.Size(41, 12);
+            this.label_updatealert.TabIndex = 66;
+            this.label_updatealert.Text = "label8";
+            this.label_updatealert.Visible = false;
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(324, 175);
+            this.ClientSize = new System.Drawing.Size(339, 197);
+            this.Controls.Add(this.panel_qq);
             this.Controls.Add(this.panel_login);
             this.Controls.Add(this.panel_google);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -244,10 +281,12 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "0";
             this.Load += new System.EventHandler(this.Login_Load);
+            this.Resize += new System.EventHandler(this.Login_Resize);
             this.panel_login.ResumeLayout(false);
             this.panel_login.PerformLayout();
             this.panel_google.ResumeLayout(false);
             this.panel_google.PerformLayout();
+            this.panel_qq.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -272,6 +311,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txt_GoogleCheck;
         private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.Panel panel_qq;
+        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Label label_updatealert;
 
     }
 }

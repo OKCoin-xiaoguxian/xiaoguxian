@@ -80,6 +80,8 @@ namespace WindowsFormsApplication1
          );
 
 
+        int FlashWindowCount = 0;
+
         public Main()
         {
             InitializeComponent();
@@ -269,6 +271,14 @@ namespace WindowsFormsApplication1
 
             ThreadEx threadex = new ThreadEx();
             threadex.Start(new ThreadStart(threadex.GetCheckVersion), new EventHandler(GetCheckVersion), this);
+
+
+
+            ThreadEx threadex2 = new ThreadEx();
+            threadex2.Start(new ThreadStart(threadex2.GetUserConfig), new EventHandler(GetUserConfig), this);
+            
+
+
             
         }
 
@@ -368,28 +378,33 @@ namespace WindowsFormsApplication1
 
         private void button10_Click(object sender, EventArgs e)
         {
-            lab_alert.Text = doBuy(Define.trade_symbol_cur, Define.trade_type_buy, txt_tradeCnyPrice.Text, txt_tradeAmount.Text);
+            lab_alert.Text = "";
+            lab_alert.Text = doBuy(Define.trade_symbol_cur, Define.trade_type_buy, txt_tradeCnyPrice.Text, txt_tradeAmount.Text, textBox_tradePassword_buy.Text);
+            timer_alert.Enabled = true;
+            
         }
 
-        private String doBuy(String trade_symbol, String trade_type, String rate, String amount)
+        private String doBuy(String trade_symbol, String trade_type, String rate, String amount, String tradePwd)
         {
-            return Submit(trade_symbol, trade_type, rate, amount);
+            return Submit(trade_symbol, trade_type, rate, amount, tradePwd);
         }
 
         private void button16_Click(object sender, EventArgs e)
         {
-            lab_sell_alert.Text = doSell(Define.trade_symbol_cur, Define.trade_type_sell, txt_Sell_tradeCnyPrice.Text, txt_Sell_tradeAmount.Text);
+            lab_sell_alert.Text = "";
+            lab_sell_alert.Text = doSell(Define.trade_symbol_cur, Define.trade_type_sell, txt_Sell_tradeCnyPrice.Text, txt_Sell_tradeAmount.Text, textBox_tradePassword_sell.Text);
         }
 
-        private String doSell(String trade_symbol, String trade_type, String rate, String amount)
+        private String doSell(String trade_symbol, String trade_type, String rate, String amount, String tradePwd)
         {
-            return Submit(trade_symbol, trade_type, rate, amount);
+            return Submit(trade_symbol, trade_type, rate, amount, tradePwd);
         }
 
 
 
-        private String Submit(String trade_symbol, String trade_type, String rate, String amount)
+        private String Submit(String trade_symbol, String trade_type, String rate, String amount, String tradePwd)
         {
+            String errorstr = "";
             if (rate.Length == 0)
             {
                 MessageBox.Show(this, "请输入价格！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -400,6 +415,31 @@ namespace WindowsFormsApplication1
                 MessageBox.Show(this, "请输入数量！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return "请输入数量!";
             }
+
+            if (amount == "0")
+            {
+                MessageBox.Show(this, "请输入数量！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return "请输入数量!";
+            }
+
+            if (Define.TradeErrorNum == "0")
+            {
+                errorstr = "交易密码输入错误多次，请2小时后再试。";
+                return errorstr;
+            }
+
+            if (Define.tradePasswordEnabled != "" || Define.TradeLasterrorCode == "10217")
+            {
+                if (Define.tradePasswordEnabled == "0" || Define.TradeLasterrorCode == "10217")
+                {
+                    if (tradePwd == "")
+                    {
+                        MessageBox.Show(this, "请输入交易密码！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        return "请输入交易密码!";
+                    }
+                }
+            }
+
 
             if (trade_type == Define.trade_type_buy)
             {
@@ -423,26 +463,69 @@ namespace WindowsFormsApplication1
                 {
                     if (ReckonBuyCoin > Data.free["cur_coin_num"])
                     {
-                        String alerttext = "所需要出售的BTC超出总BTC量!";
+                        String alerttext = "所需要出售的币超出币的总量!";
                         alert(trade_type, alerttext);
 
-                        return "所需要出售的BTC超出总BTC量!";
+                        return "所需要出售的币超出币的总量!";
                     }
                 }
-
             }
+
+
+            textBox_tradePassword_buy.Text = "";
+            textBox_tradePassword_sell.Text = "";
 
             try
             {
-                int result = Protocol.DoTrade(trade_symbol, trade_type, rate, amount);
+
+
+                label35.Visible = false;
+                textBox_tradePassword_buy.Visible = false;
+                label36.Visible = false;
+                textBox_tradePassword_sell.Visible = false;
+
+
+                int result = Protocol.DoTrade(trade_symbol, trade_type, rate, amount, tradePwd);
                 if (result == Define.Trade_Succeed)
                 {
                     OnOrder();
+                    Define.tradePasswordEnabled = "";
+                    Define.TradeLasterrorCode = "";
                     return "下单成功！";
                 } 
                 else
                 {
-                    return "下单失败！";
+                    if(Define.TradeLasterrorCode == "10217")
+                    {
+                        GetUserConfig(null, null);
+                    }
+                    
+                    if (Define.TradeErrorNum != "")
+                    {
+                        if (Define.TradeErrorNum == "0")
+                        {
+                            errorstr = "交易密码输入错误多次，请2小时后再试。";
+                            label35.Visible = false;
+                            textBox_tradePassword_buy.Visible = false;
+                            label36.Visible = false;
+                            textBox_tradePassword_sell.Visible = false;
+                        }
+                        else
+                        {
+                            errorstr = "交易密码输入错误，还剩下" + Define.TradeErrorNum  + "次机会。";
+                            label35.Visible = true;
+                            textBox_tradePassword_buy.Visible = true;
+                            label36.Visible = true;
+                            textBox_tradePassword_sell.Visible = true;
+                        }
+
+                        
+                    }
+                    else
+                    {
+                        errorstr = Define.getErrorCodeString(Define.TradeLasterrorCode);
+                    }
+                    return errorstr;
                 }
 
                 
@@ -451,7 +534,7 @@ namespace WindowsFormsApplication1
             {
 
             }
-            return "下单失败！可能网络无法连接。";
+            return "下单失败！可能网络无法F连接。";
         }
 
 
@@ -516,13 +599,7 @@ namespace WindowsFormsApplication1
             {
                 ReckonBuyCny = get_input_RMB(Define.trade_type_buy, txt_tradeCnyPrice.Text, txt_tradeAmount.Text);
             }
-            txt_txt_tradeAmount.Text = ReckonBuyCny.ToString();
-
-
-
-
-
-            
+            txt_txt_tradeAmount.Text = ReckonBuyCny.ToString();            
         }
 
 
@@ -533,7 +610,7 @@ namespace WindowsFormsApplication1
             Double InputPrice = (Double)Convert.ChangeType(tradeCnyPrice, typeof(Double));
             Double InputNum = (Double)Convert.ChangeType(tradeAmount, typeof(Double));
             Double tempReckonCny = InputPrice * InputNum;
-            String strneedRMB = tempReckonCny.ToString("0.000");
+            String strneedRMB = tempReckonCny.ToString("0.000").TrimEnd('0').TrimEnd('.');
             tempReckonCny = (Double)Convert.ChangeType(strneedRMB, typeof(Double));
 
             if (tempReckonCny == 0)
@@ -558,7 +635,7 @@ namespace WindowsFormsApplication1
                 {
                     if (InputNum > Data.free["cur_coin_num"])
                     {
-                        alert(trade_type, "所需要出售的BTC超出总BTC量!");
+                        alert(trade_type, "所需要出售的币超出币的总量!");
                     }
                 }
 
@@ -589,7 +666,7 @@ namespace WindowsFormsApplication1
             {
                 lab_sell_alert.Text = text;
             }
-
+            timer_alert.Enabled = true;
         }
         private void button11_Click(object sender, EventArgs e)
         {
@@ -612,13 +689,13 @@ namespace WindowsFormsApplication1
             txt_tradeCnyPrice.Text = price.ToString();
         }
 
-        private void getneedNumWithRMB(TextBox _tradeCnyPrice, TextBox _tradeAmount, Double num)
+        private String getneedNumWithRMB(String _tradeCnyPrice, String _tradeAmount, Double num)
         {
-            if (_tradeCnyPrice.Text == "")
+            if (_tradeCnyPrice == "")
             {
-                return;
+                return "0";
             }
-            Double price = (Double)Convert.ChangeType(_tradeCnyPrice.Text, typeof(Double));
+            Double price = (Double)Convert.ChangeType(_tradeCnyPrice, typeof(Double));
             Double neednum = 0;
             lock (Data.free)
             {
@@ -631,9 +708,9 @@ namespace WindowsFormsApplication1
             }
 
             neednum = neednum * num;
-            String strneednum = neednum.ToString("0.000");
+            String strneednum = neednum.ToString("0.000").TrimEnd('0').TrimEnd('.');
             neednum = (Double)Convert.ChangeType(strneednum, typeof(Double));
-            _tradeAmount.Text = neednum.ToString();
+            return neednum.ToString();
 
         }
 
@@ -647,7 +724,7 @@ namespace WindowsFormsApplication1
                 neednum = Data.free["cur_coin_num"] * num;
             }
 
-            String strneednum = neednum.ToString("0.000");
+            String strneednum = neednum.ToString("0.000").TrimEnd('0').TrimEnd('.');
             neednum = (Double)Convert.ChangeType(strneednum, typeof(Double));
             _tradeAmount.Text = neednum.ToString();
 
@@ -658,27 +735,27 @@ namespace WindowsFormsApplication1
 
         private void button6_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.99);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 1);
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.5);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.5);
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.33);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.33);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.25);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.25);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.2);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.2);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -686,11 +763,7 @@ namespace WindowsFormsApplication1
 
             ThreadEx threadex = new ThreadEx();
             threadex.Start(new ThreadStart(threadex.GetUserInfo), new EventHandler(GetUserInfo), this);
-
-
-
-
-
+                   
             ThreadEx threadex2 = new ThreadEx();
             threadex2.Start(new ThreadStart(threadex2.GetTickerinfo), new EventHandler(GetTickerinfo), this);
 
@@ -704,28 +777,28 @@ namespace WindowsFormsApplication1
             {
                 lock (Data.free)
                 {
-                    lbl_freecny.Text = Data.free["cny"].ToString();
-                    lab_freecny.Text = Data.free["cny"].ToString();
+                    lbl_freecny.Text = Data.free["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_freecny.Text = Data.free["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
-                    lbl_freebtc.Text = Data.free["btc"].ToString();
-                    lbl_freeltc.Text = Data.free["ltc"].ToString();
+                    lbl_freebtc.Text = Data.free["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lbl_freeltc.Text = Data.free["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
-                    lab_Sell_coin_num.Text = Data.free["cur_coin_num"].ToString();
+                    lab_Sell_coin_num.Text = Data.free["cur_coin_num"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
-                    lab_RemainderMoney.Text = Data.free["cny"].ToString(); ;
+                    lab_RemainderMoney.Text = Data.free["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.'); ;
                 }
 
 
 
                 lock (Data.freezed)
                 {
-                    lbl_freezedcny.Text = Data.freezed["cny"].ToString();
-                    lbl_freezedbtc.Text = Data.freezed["btc"].ToString();
-                    lbl_freezedltc.Text = Data.freezed["ltc"].ToString();
+                    lbl_freezedcny.Text = Data.freezed["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lbl_freezedbtc.Text = Data.freezed["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lbl_freezedltc.Text = Data.freezed["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
                 }
                 lock (Data.freeall)
                 {
-                    lab_TotalMoney.Text = Data.freeall["all"].ToString();
+                    lab_TotalMoney.Text = Data.freeall["all"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
                 }
 
 
@@ -747,6 +820,8 @@ namespace WindowsFormsApplication1
 
 
 
+
+
         private void GetTickerinfo(Object o, EventArgs e)//各网站行情信息:
         {
             
@@ -756,14 +831,14 @@ namespace WindowsFormsApplication1
                 {
                     lock (Data.free)
                     {
-                        lbl_freecny.Text = Data.free["cny"].ToString();
-                        lbl_freebtc.Text = Data.free["btc"].ToString();
-                        lbl_freeltc.Text = Data.free["ltc"].ToString();
+                        lbl_freecny.Text = Data.free["cny"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                        lbl_freebtc.Text = Data.free["btc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                        lbl_freeltc.Text = Data.free["ltc"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
                     }
 
 
-                    lab_last_btc.Text = Data.btclast.ToString();
-                    lab_last_ltc.Text = Data.ltclast.ToString();
+                    lab_last_btc.Text = Data.btclast.ToString("0.000000").TrimEnd('0').TrimEnd('.');
+                    lab_last_ltc.Text = Data.ltclast.ToString("0.000000").TrimEnd('0').TrimEnd('.');
 
                     String Title = Define.TitleBase + ",　　最新价:　　BTC" + Data.btclast + "　　LTC" + Data.ltclast;
                     
@@ -784,8 +859,8 @@ namespace WindowsFormsApplication1
             if (Define.NewVersionUrl != "")
             {
                 DialogResult dr;
-                dr = MessageBox.Show("发现新版本，是否现在升级？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (dr == DialogResult.Cancel)
+                dr = MessageBox.Show("发现新版本，是否现在升级？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.No)
                 {
                     return;
                 }
@@ -794,7 +869,26 @@ namespace WindowsFormsApplication1
                 threadex.Start(new ThreadStart(threadex.GetNewVersion), new EventHandler(GetNewVersion), this);
             }
         }
-
+        private void GetUserConfig(Object o, EventArgs e)
+        {
+            if (Define.tradePasswordEnabled != "" || Define.TradeLasterrorCode == "10217")
+            {
+                if (Define.tradePasswordEnabled == "0" || Define.TradeLasterrorCode == "10217")
+                {
+                    label35.Visible = true;
+                    textBox_tradePassword_buy.Visible = true;
+                    label36.Visible = true;
+                    textBox_tradePassword_sell.Visible = true;
+                }
+                else
+                {
+                    label35.Visible = false;
+                    textBox_tradePassword_buy.Visible = false;
+                    label36.Visible = false;
+                    textBox_tradePassword_sell.Visible = false;
+                }
+            }
+        }
 
         private void GetNewVersion(Object o, EventArgs e)//各网站行情信息:
         {
@@ -812,9 +906,9 @@ namespace WindowsFormsApplication1
             {
                 lock (Data.free)
                 {
-                    lab_ReckonBuy.Text = (Data.free["cny"] / Data.curlast).ToString("0.000");
-                    lab_ReckonSell.Text = (Data.free["cur_coin_num"] * Data.curlast).ToString("0.000");
-                    label_curlast.Text = Data.curlast.ToString();
+                    lab_ReckonBuy.Text = (Data.free["cny"] / Data.curlast).ToString("0.000").TrimEnd('0').TrimEnd('.');
+                    lab_ReckonSell.Text = (Data.free["cur_coin_num"] * Data.curlast).ToString("0.000").TrimEnd('0').TrimEnd('.');
+                    label_curlast.Text = Data.curlast.ToString("0.000000").TrimEnd('0').TrimEnd('.');
                 }
 
 
@@ -850,11 +944,11 @@ namespace WindowsFormsApplication1
             Double needPrice = TempBuyOrSellPrice;
             Double needPercent = (Double)Convert.ChangeType(obj.Value, typeof(Double));
             needPercent = needPercent / 100;
-            String strneedPercent = needPercent.ToString("0.000");
+            String strneedPercent = needPercent.ToString("0.000").TrimEnd('0').TrimEnd('.');
             needPercent = (Double)Convert.ChangeType(strneedPercent, typeof(Double));
 
             needPrice = needPrice + (needPrice * needPercent);
-            String strneedPrice = needPrice.ToString("0.000");
+            String strneedPrice = needPrice.ToString("0.000").TrimEnd('0').TrimEnd('.');
             needPrice = (Double)Convert.ChangeType(strneedPrice, typeof(Double));
             //MessageBox.Show(MoneyNumRMB.ToString());
             return needPrice;
@@ -928,7 +1022,8 @@ namespace WindowsFormsApplication1
 
         private void button13_Click(object sender, EventArgs e)
         {
-            getneedNumWithBTC(txt_Sell_tradeAmount, 0.99);
+            txt_Sell_tradeAmount.Text = Data.free["cur_coin_num"].ToString("0.000000").TrimEnd('0').TrimEnd('.');
+            //getneedNumWithBTC(txt_Sell_tradeAmount, 0.9999);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -1100,7 +1195,7 @@ namespace WindowsFormsApplication1
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             //Process process = new Process();
             process.StartInfo.FileName = "iexplore.exe";
-            process.StartInfo.Arguments = Define.Domain;
+            process.StartInfo.Arguments = Define.Url;
             process.StartInfo.UseShellExecute = true;
             process.Start();
         }
@@ -1115,27 +1210,27 @@ namespace WindowsFormsApplication1
 
         private void button27_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.16);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.16);
         }
 
         private void button26_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.14);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.14);
         }
 
         private void button25_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.125);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.125);
         }
 
         private void button24_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.111);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.111);
         }
 
         private void button28_Click(object sender, EventArgs e)
         {
-            getneedNumWithRMB(txt_tradeCnyPrice, txt_tradeAmount, 0.1);
+            txt_tradeAmount.Text = getneedNumWithRMB(txt_tradeCnyPrice.Text, txt_tradeAmount.Text, 0.1);
         }
 
         private void button33_Click(object sender, EventArgs e)
@@ -1236,8 +1331,8 @@ namespace WindowsFormsApplication1
 
         private void AddWarn(int cointype)
         {
-             AddWarn form2 = new AddWarn();//新建一个NewForm窗口(NewForm是自己定义的Form)
-            //form2.command(3, 4);
+            AddWarn form2 = new AddWarn();//新建一个NewForm窗口(NewForm是自己定义的Form)
+            form2.command_cointype(cointype);
             form2.ShowDialog(); //新窗口显现
             warn_to_list(0);
             warn_to_list(1);           
@@ -1287,6 +1382,7 @@ namespace WindowsFormsApplication1
                             {
                                 timerWarnPlay.Enabled = true;
                                 FlashWindow(this.Handle, true);//闪烁 
+                                timer_FlashWindow.Enabled = true;
                             }
                             warncount++;
                         }
@@ -1344,7 +1440,8 @@ namespace WindowsFormsApplication1
                             if (warn.alerttype == 2 || warn.alerttype == 3)
                             {
                                 timerWarnPlay.Enabled = true;
-                                FlashWindow(this.Handle, true);//闪烁 
+                                FlashWindow(this.Handle, true);//闪烁
+                                timer_FlashWindow.Enabled = true;
                             }
                             warncount++;
                         }
@@ -1834,17 +1931,46 @@ namespace WindowsFormsApplication1
 
         }
 
+        private void timer_alert_Tick(object sender, EventArgs e)
+        {
+            lab_alert.Text = "";
+            lab_sell_alert.Text = "";
+            timer_alert.Enabled = false;
+        }
+
+        private void timer_FlashWindow_Tick(object sender, EventArgs e)
+        {
+            FlashWindowCount++;
+            if(FlashWindowCount >= 6)
+            {
+                timer_FlashWindow.Enabled = false;
+                FlashWindowCount = 0;
+                return ;
+            }
+            FlashWindow(this.Handle, true);//闪烁 
+        }
 
 
 
 
 
 
+        private void GetOrderForId(Object o, EventArgs e)
+        {
+
+            if (Data.GetOrderHistoryResult == Define.Login_Succeed)
+            {
+                lock (Data.OrderList)
+                {
+                    ShowList(listView_Order, Data.OrderList);
+                }
+
+            }
+        }
 
 
 
-
-
+        
     }
 
     public partial class Price
@@ -1857,18 +1983,9 @@ namespace WindowsFormsApplication1
         }
     }
 
-    public partial class BuyOrSell
-    {
-        public static int BUY = 0;//0为Buy.
-        public static int SELL = 1;//1为Sell.
-        public static int ENTRUST = 2;//2为委托管理.
-    }
 
 
-    public partial class ConsignState
-    {
-        public static int Default = 0;//0为Buy.
-        public const int WAIT = 1;//0为Buy.
-        public const int COM = 2;//0为Buy.        
-    }
+
+
+
 }

@@ -139,6 +139,7 @@ namespace WindowsFormsApplication1
         public void setprice(String _price)
         {
             price = (Double)Convert.ChangeType(_price, typeof(Double));
+            price = (Double)Convert.ChangeType(price.ToString("0.000").TrimEnd('0').TrimEnd('.'), typeof(Double));
         }
         public void setgreatorless(String _value)
         {

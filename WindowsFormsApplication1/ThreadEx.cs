@@ -79,7 +79,11 @@ namespace WindowsFormsApplication1
             Data.GetTickerinfoResult = Protocol.GetTickerinfo();
             OnReadParamEvent(Data.GetTickerinfoResult.ToString());//触发事件   
         }
-
+        public void GetUserConfig()//各网站行情信息:
+        {
+            Data.GetUserConfigResult = Protocol.GetUserConfig();
+            OnReadParamEvent(Data.GetUserConfigResult.ToString());//触发事件   
+        }
         public void GetCheckVersion()//各网站行情信息:
         {
             Data.GetCheckVersionResult = Protocol.GetCheckVersion();
@@ -109,8 +113,12 @@ namespace WindowsFormsApplication1
         public void GetOrder(object obj)
         {
             OrderParm orderparm = obj as OrderParm;
-            Data.GetOrderResult = Protocol.DoOrderHistory(orderparm.symbol, orderparm.status, orderparm.currentPage, orderparm.pageLength);
+            Data.GetOrderResult = Protocol.DoOrder(orderparm.symbol, orderparm.Order_id);
             OnReadParamEvent(Data.GetOrderResult.ToString());//触发事件  
+
+            //OrderParm orderparm = obj as OrderParm;
+            //Data.GetOrderResult = Protocol.DoOrderHistory(orderparm.symbol, orderparm.status, orderparm.currentPage, orderparm.pageLength);
+            //OnReadParamEvent(Data.GetOrderResult.ToString());//触发事件  
         }
 
         public void GetCancelOrder(object obj)
@@ -128,6 +136,11 @@ namespace WindowsFormsApplication1
             OnReadParamEvent(Data.GetLoginResult.ToString());//触发事件  
         }
 
+        public void GetQQLogin()
+        {
+            Data.GetQQLoginResult = Protocol.GetQQLogin();
+            OnReadParamEvent(Data.GetQQLoginResult.ToString());//触发事件  
+        }
 
         public void GetGoogleCheck(object obj)
         {
@@ -157,9 +170,18 @@ namespace WindowsFormsApplication1
         public string symbol { get; set; }
         public string currentPage { get; set; }
         public string pageLength { get; set; }
+
+
+        public string Order_id { get; set; }
+        public string deal_amount { get; set; }//成交数量
+        public string avg_rate { get; set; }// = "";//平均成交价
+
+
+
     }
 
 
+   
 
     public class DepthParm
     {
@@ -172,6 +194,7 @@ namespace WindowsFormsApplication1
         public string symbol { get; set; }
         public string Order_id { get; set; }
     }
+
 
 
 

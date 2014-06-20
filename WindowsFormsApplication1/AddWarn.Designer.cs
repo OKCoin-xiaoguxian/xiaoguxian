@@ -131,11 +131,13 @@
             // txt_price
             // 
             this.txt_price.Location = new System.Drawing.Point(173, 39);
+            this.txt_price.MaxLength = 10;
             this.txt_price.Name = "txt_price";
             this.txt_price.Size = new System.Drawing.Size(84, 21);
             this.txt_price.TabIndex = 59;
+            this.txt_price.TextChanged += new System.EventHandler(this.txt_price_TextChanged);
             // 
-            // Form2
+            // AddWarn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -152,7 +154,7 @@
             this.Controls.Add(this.label3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form2";
+            this.Name = "AddWarn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);

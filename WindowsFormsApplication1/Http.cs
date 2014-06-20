@@ -44,8 +44,9 @@ namespace WindowsFormsApplication1
             try
             {
                 //读取远程路径HttpWebRequest
-                WebRequest temp = WebRequest.Create(Url);
-                WebResponse myTemp = temp.GetResponse();
+                WebRequest request = WebRequest.Create(Url);
+                //request.Referer = Define.Domain;
+                WebResponse myTemp = request.GetResponse();
                 sr = new StreamReader(myTemp.GetResponseStream(), code);
                 //读取
                 sr = new StreamReader(myTemp.GetResponseStream(), code);
@@ -112,10 +113,12 @@ namespace WindowsFormsApplication1
                 }
                 
                 request.Method = "POST";
+                request.Referer = Define.Domain;
                 request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                 request.ContentLength = Encoding.UTF8.GetByteCount(DataStr);
 
                 request.CookieContainer = cookie;
+
 
 
                 Stream myRequestStream = request.GetRequestStream();

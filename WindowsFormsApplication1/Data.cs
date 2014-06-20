@@ -13,6 +13,7 @@ namespace WindowsFormsApplication1
         public static int GetAssetsResult = 0;
         public static int GetTickerinfoResult = 0;
 
+        public static int GetUserConfigResult = 0;
         public static int GetCheckVersionResult = 0;
 
         public static int GetDepthResult = 0;
@@ -23,6 +24,8 @@ namespace WindowsFormsApplication1
 
         public static int GetNewVersionResult = 0;
 
+        public static int GetQQLoginResult = 0;
+        public static String GetQQLoginUrl = "";
 
         /// <summary>
         /// //////////////////////////
@@ -51,6 +54,10 @@ namespace WindowsFormsApplication1
 
         public static List<Consign> SellDepthList = new List<Consign>();
         public static List<Consign> BuyDepthList = new List<Consign>();
+
+
+
+
 
 
         public static Double btclast = 0;

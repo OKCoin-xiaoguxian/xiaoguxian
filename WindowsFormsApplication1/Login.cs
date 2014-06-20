@@ -7,12 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using System.Net;
+
 
 namespace WindowsFormsApplication1
 {
     
     public partial class Login : Form
     {
+
+        System.Diagnostics.Process process = new System.Diagnostics.Process();
+
+        private int elapsedTime;
+        private bool eventHandled;
+
+
         public Login()
         {
             InitializeComponent();
@@ -58,19 +67,18 @@ namespace WindowsFormsApplication1
             }
             else if (Data.GetLoginResult == Define.Login_Google)
             {
-
+                panel_qq.Visible = false;
                 panel_login.Visible = false;
                 panel_google.Visible = true;
                 txt_GoogleCheck.Focus();
                 //Goolge google = new Goolge();//新建一个NewForm窗口(NewForm是自己定义的Form)
                 //this.ShowDialog(google);
-
-
-
+                
             }
             else if (Data.GetLoginResult != Define.Login_Google)
             {
                 MessageBox.Show(this,"登录失败！","登录提示",MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
+                txt_password.Text = "";
             }
 
             //httptest1.Main123();
@@ -96,7 +104,7 @@ namespace WindowsFormsApplication1
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Des.OpenUrl(Define.Domain);
+            Des.OpenUrl(Define.Url);
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -109,6 +117,7 @@ namespace WindowsFormsApplication1
 
             panel_login.Visible = true;
             panel_google.Visible = false;
+            panel_qq.Visible = false;
 
             panel_login.Top = 0;
             panel_login.Left = 0;
@@ -116,7 +125,18 @@ namespace WindowsFormsApplication1
             panel_google.Top = 0;
             panel_google.Left = 0;
 
+            panel_qq.Top = 0;
+            panel_qq.Left = 0;
+
+
+            ThreadEx threadex = new ThreadEx();
+            threadex.Start(new ThreadStart(threadex.GetCheckVersion), new EventHandler(GetCheckVersion), this);
+
+  
         }
+
+
+
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -128,10 +148,7 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Des.OpenUrl(Define.QQ);
-        }
+
 
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -189,22 +206,28 @@ namespace WindowsFormsApplication1
 
         private void linkLabel3_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            //Process process = new Process();
-            process.StartInfo.FileName = "iexplore.exe";
-            process.StartInfo.Arguments = Define.QQ;
-            process.StartInfo.UseShellExecute = true;
-            process.Start();
+            this.Width = 660;
+            this.Height = 680;
+            this.CenterToScreen();
+
+            panel_login.Visible = false;
+            panel_google.Visible = false;
+            panel_qq.Visible = true;
+            webBrowser1.Navigate(Define.LoginQQ);
+
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            //Process process = new Process();
-            process.StartInfo.FileName = "iexplore.exe";
-            process.StartInfo.Arguments = Define.QQ;
-            process.StartInfo.UseShellExecute = true;
-            process.Start();
+            this.Width = 660;
+            this.Height = 680;
+            this.CenterToScreen();
+
+            panel_login.Visible = false;
+            panel_google.Visible = false;
+            panel_qq.Visible = true;
+
+            webBrowser1.Navigate(Define.LoginSina);
         }
 
         private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
@@ -212,7 +235,7 @@ namespace WindowsFormsApplication1
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             //Process process = new Process();
             process.StartInfo.FileName = "iexplore.exe";
-            process.StartInfo.Arguments = Define.Domain;
+            process.StartInfo.Arguments = Define.Url;
             process.StartInfo.UseShellExecute = true;
             process.Start();
         }
@@ -220,6 +243,7 @@ namespace WindowsFormsApplication1
         private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
+
             //Process process = new Process();
             process.StartInfo.FileName = "iexplore.exe";
             process.StartInfo.Arguments = Define.Reset;
@@ -227,6 +251,104 @@ namespace WindowsFormsApplication1
             process.Start();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            CookieContainer myCookieContainer = new CookieContainer();
+            string cookieStr = webBrowser1.Document.GetElementById("key").InnerText;
+
+            string resultCode = "";
+            if (webBrowser1.Document.GetElementById("resultCode") != null)
+            {
+               resultCode = webBrowser1.Document.GetElementById("resultCode").InnerText;
+            }
+
+
+            if (cookieStr != "")
+            {
+
+                Cookie ck = new Cookie("coin_session_id_o", cookieStr);
+                ck.Domain = Define.Domain;//必须写对
+                myCookieContainer.Add(ck);
+
+                Http.cookie = myCookieContainer;
+
+                if (resultCode == "1")
+                {
+                    Data.GetLoginResult = Define.Login_Google;
+                    this.Width = 345;
+                    this.Height = 225;
+                    this.CenterToScreen();
+                }
+                else
+                {
+                    Data.GetLoginResult = Define.Login_Succeed;
+                }
+            
+                GetLogin(sender, null);
+            }
+        }
+
+        private void panel_login_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel_qq_Resize(object sender, EventArgs e)
+        {
+            webBrowser1.Top = panel_qq.Top;
+            webBrowser1.Left = panel_qq.Left;
+            webBrowser1.Width = panel_qq.Width;
+            webBrowser1.Height = panel_qq.Height;
+        }
+
+        private void Login_Resize(object sender, EventArgs e)
+        {
+            panel_qq.Width = this.Width;
+            panel_qq.Height = this.Height;
+        }
+
+
+        private void GetCheckVersion(Object o, EventArgs e)//各网站行情信息:
+        {
+            if (Define.NewVersionUrl != "")
+            {
+                DialogResult dr;
+                dr = MessageBox.Show("发现新版本，是否现在升级？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.No)
+                {
+                    Data.GetLoginResult = Define.Login_Falied;
+                    this.Close();
+                    return;
+                }
+
+                label_updatealert.Text = "正在下载升级包。";
+
+                txt_Username.Enabled = false;
+                txt_password.Enabled = false;
+                button1.Enabled = false;
+                linkLabel3.Enabled = false;
+                linkLabel4.Enabled = false;
+
+
+                label_updatealert.Visible = true;
+
+
+                ThreadEx threadex = new ThreadEx();
+                threadex.Start(new ThreadStart(threadex.GetNewVersion), new EventHandler(GetNewVersion), this);
+            }
+        }
+        private void GetNewVersion(Object o, EventArgs e)//各网站行情信息:
+        {
+            if (Define.NewVersionFileName != "")
+            {
+                Des.Execute(Define.NewVersionFileName, "");
+                //this.Close();
+            }
+        }
 
     }
 }
